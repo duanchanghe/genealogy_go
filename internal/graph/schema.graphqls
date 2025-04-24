@@ -1,0 +1,150 @@
+type Member {
+  id: ID!
+  name: String!
+  gender: String!
+  birthDate: String!
+  deathDate: String
+  birthPlace: String
+  currentPlace: String
+  education: String
+  occupation: String
+  description: String
+  father: Member
+  mother: Member
+  spouse: Member
+  photos: [Photo!]
+  events: [Event!]
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Photo {
+  id: ID!
+  memberId: ID!
+  url: String!
+  description: String
+  takeDate: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Event {
+  id: ID!
+  memberId: ID!
+  title: String!
+  description: String
+  eventDate: String!
+  eventType: String!
+  location: String
+  createdAt: String!
+  updatedAt: String!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  role: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input MemberFilter {
+  name: String
+  gender: String
+  birthPlace: String
+  currentPlace: String
+  education: String
+  occupation: String
+  birthDateStart: String
+  birthDateEnd: String
+  hasFather: Boolean
+  hasMother: Boolean
+  hasSpouse: Boolean
+}
+
+input PaginationInput {
+  page: Int!
+  perPage: Int!
+}
+
+type PaginatedMembers {
+  members: [Member!]!
+  total: Int!
+  page: Int!
+  perPage: Int!
+  totalPages: Int!
+}
+
+type Query {
+  members(filter: MemberFilter, pagination: PaginationInput): PaginatedMembers!
+  member(id: ID!): Member
+  photos(memberId: ID!): [Photo!]!
+  events(memberId: ID!): [Event!]!
+  me: User!
+}
+
+input MemberInput {
+  name: String!
+  gender: String!
+  birthDate: String!
+  deathDate: String
+  birthPlace: String
+  currentPlace: String
+  education: String
+  occupation: String
+  description: String
+  fatherId: ID
+  motherId: ID
+  spouseId: ID
+}
+
+input PhotoInput {
+  memberId: ID!
+  url: String!
+  description: String
+  takeDate: String!
+}
+
+input EventInput {
+  memberId: ID!
+  title: String!
+  description: String
+  eventDate: String!
+  eventType: String!
+  location: String
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input RegisterInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  createMember(input: MemberInput!): Member!
+  updateMember(id: ID!, input: MemberInput!): Member!
+  deleteMember(id: ID!): Boolean!
+  
+  createPhoto(input: PhotoInput!): Photo!
+  updatePhoto(id: ID!, input: PhotoInput!): Photo!
+  deletePhoto(id: ID!): Boolean!
+  
+  createEvent(input: EventInput!): Event!
+  updateEvent(id: ID!, input: EventInput!): Event!
+  deleteEvent(id: ID!): Boolean!
+
+  login(input: LoginInput!): AuthPayload!
+  register(input: RegisterInput!): AuthPayload!
+  uploadPhoto(file: Upload!): Photo!
+} 

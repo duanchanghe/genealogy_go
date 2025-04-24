@@ -1,0 +1,25 @@
+server:
+  port: 8080
+  mode: debug  # debug or release
+
+database:
+  driver: postgres  # postgres or mysql
+  host: localhost
+  port: 5432
+  username: postgres
+  password: your_password
+  dbname: genealogy
+  sslmode: disable
+  max_idle_conns: 10
+  max_open_conns: 100
+
+jwt:
+  secret: your_jwt_secret_key
+  expire: 24h  # token expiration time
+
+log:
+  level: debug
+  filename: ./logs/app.log
+  max_size: 100    # megabytes
+  max_age: 30      # days
+  max_backups: 10 

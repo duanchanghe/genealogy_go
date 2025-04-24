@@ -1,0 +1,159 @@
+# 查询所有家族成员
+query GetAllMembers {
+  members {
+    id
+    name
+    gender
+    birthDate
+    birthPlace
+    currentPlace
+    education
+    occupation
+    father {
+      name
+    }
+    mother {
+      name
+    }
+    spouse {
+      name
+    }
+    photos {
+      url
+      description
+      takeDate
+    }
+    events {
+      title
+      description
+      eventDate
+      eventType
+      location
+    }
+  }
+}
+
+# 查询特定成员
+query GetMember($id: ID!) {
+  member(id: $id) {
+    id
+    name
+    gender
+    birthDate
+    birthPlace
+    currentPlace
+    education
+    occupation
+    description
+    father {
+      id
+      name
+    }
+    mother {
+      id
+      name
+    }
+    spouse {
+      id
+      name
+    }
+  }
+}
+
+# 创建新成员
+mutation CreateMember {
+  createMember(input: {
+    name: "张三"
+    gender: "男"
+    birthDate: "1990-01-01"
+    birthPlace: "北京"
+    currentPlace: "上海"
+    education: "大学"
+    occupation: "工程师"
+    description: "家族长子"
+  }) {
+    id
+    name
+    gender
+    birthDate
+    birthPlace
+    currentPlace
+    education
+    occupation
+    description
+  }
+}
+
+# 更新成员信息
+mutation UpdateMember($id: ID!) {
+  updateMember(id: $id, input: {
+    name: "张三"
+    gender: "男"
+    birthDate: "1990-01-01"
+    currentPlace: "广州"
+    occupation: "高级工程师"
+    description: "家族长子，现居广州"
+  }) {
+    id
+    name
+    currentPlace
+    occupation
+    description
+  }
+}
+
+# 添加照片
+mutation AddPhoto {
+  createPhoto(input: {
+    memberId: "1"
+    url: "https://example.com/photos/1.jpg"
+    description: "全家福"
+    takeDate: "2023-01-01"
+  }) {
+    id
+    url
+    description
+    takeDate
+  }
+}
+
+# 添加事件
+mutation AddEvent {
+  createEvent(input: {
+    memberId: "1"
+    title: "结婚"
+    description: "与李四结婚"
+    eventDate: "2020-05-01"
+    eventType: "婚姻"
+    location: "北京"
+  }) {
+    id
+    title
+    description
+    eventDate
+    eventType
+    location
+  }
+}
+
+# 查询成员的照片
+query GetMemberPhotos($memberId: ID!) {
+  photos(memberId: $memberId) {
+    id
+    url
+    description
+    takeDate
+  }
+}
+
+# 查询成员的事件
+query GetMemberEvents($memberId: ID!) {
+  events(memberId: $memberId) {
+    id
+    title
+    description
+    eventDate
+    eventType
+    location
+  }
+} 
